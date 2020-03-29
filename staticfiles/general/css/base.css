@@ -1,0 +1,147 @@
+.centerButton{
+    display: flex;
+    justify-content: center;
+    justify-self: center;
+    align-items: center;
+}
+.material-icons {
+    padding-left:8px;
+    font-size:16px;
+}
+
+.cartButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cartIcon{
+    font-size:12px!important;
+}
+
+.productContent{
+    margin-bottom: 250px;
+}
+
+.centerSmallButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.onLoadFullscreenButton{
+    animation: loadButton 0.8s forwards;
+
+}
+
+
+.regularFullscreenButton{
+    animation: collapseButton 0.2s forwards;
+
+}
+
+
+.scaledFullscreenButton {
+    animation: expandButton 0.2s forwards;
+  }
+
+
+.fullScreen-off{
+
+    position: relative;
+    width: 100%;
+    animation: collaps 0.2s;
+
+}
+
+.fullScreen-on{
+    animation: expand 0.2s forwards;
+
+}
+
+@keyframes loadButton {
+    0% {
+        transform: scale(0.5);
+
+    }
+    100% {
+        /* Equal to scaleX(0.7) scaleY(0.7) */
+        transform: scale(1.0);
+
+    }
+  }
+
+
+@keyframes expandButton {
+    0% {
+        transform: scale(1.0); 
+    }
+    100% {
+        transform: scale(2.0); /* Equal to scaleX(0.7) scaleY(0.7) */
+
+    }
+  }
+
+  @keyframes collapseButton {
+    0% {
+        transform: scale(2.0); /* Equal to scaleX(0.7) scaleY(0.7) */
+
+    }
+    100% {
+        transform: scale(1.0); 
+    }
+  }
+
+@keyframes expand {
+    0% {
+   
+    }
+    100% {
+        z-index: 9999; 
+        width: 100%; 
+        height: 100%; 
+        position: fixed;
+        top: 0; 
+        left: 0; 
+        background: white;
+    }
+  }
+
+
+  @keyframes collaps {
+    0% {
+        z-index: 9999; 
+        width: 100%; 
+        height: 100%; 
+        position: absolute;
+        top: 0; 
+        left: 0; 
+    }
+    100% {
+        
+    }
+  }
+
+
+  .stripe-button-el span{
+      
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  }
