@@ -1,0 +1,196 @@
+{% extends 'recipes/base.html' %}
+{% load static %}
+{% block css %}
+{{block.super}}
+<link rel="stylesheet" href="{% static 'recipes/css/homepage.css' %}">
+
+{% endblock css %}
+{% block content %}
+<div class="vidWrapper">
+  <video id="bgvidcategory" src="{% static 'recipes/img/backgroundvideo.mp4' %}"  autoplay loop playsinline muted></video>
+
+</div>
+<div class="productContent bg-white w-100">
+  <div class="container">
+<div class="row bg-white">
+{% for dish in category.dishes.all %}
+
+
+<div class="col  d-flex justify-content-center">
+    <div class="card mt-2" style="width: 19rem;">
+    {% if dish.stl %}
+
+          <model-viewer id="toggle-poster{{dish.pk}}" class="w-100 fullScreen-off"  {% for dishimage in dish.dishimages.all %}
+              {% if forloop.counter == 1 %}
+              poster = "{{dishimage.image.url}}";
+              {% endif %}
+              {% endfor %} src="{{dish.stl.url}}" alt="{{dish.name}}" auto-rotate camera-controls>
+            <button id="toggleFullscreen{{dish.pk}}" class="btn btn-small d-none bg-white border border-dark rounded centerSmallButton " style="position:absolute;bottom:5px;right:5px; width:40px"><i class="material-icons mr-2">fullscreen</i></button>
+            <div id="lazy-load-poster{{dish.pk}}" slot="poster"></div>
+            <div id="button-load{{dish.pk}}" class="text-center align-center" slot="poster">Loading 3D Model</div>
+          </model-viewer>
+          {% else %}
+        {% for dishimage in dish.dishimages.all %}
+        
+        {% if forloop.first %}
+
+        <div class="card-img-top"  style="width: 100%; height: 200px; background-image: url({{dishimage.image.url}}); background-size: cover; background-repeat: no-repeat; background-position: 50% 50%; position:relative" alt="Card image cap">
+        <a href="{% url 'dish' category.slug dish.slug 1 %}" class="btn btn-light btn-sm p-1 d-flex justify-content-center" style="position: absolute; bottom: 5px; right: 10px;"><i class="material-icons mx-auto mr-2" style="position: relative;right:3px;">photo_library</i></a>
+        </div>
+
+        {% endif %}
+        {% empty %}
+        <p class="card-text">No 3d file or images for this product</p>
+        {% endfor %}
+          {% endif %}
+
+        
+        <div class="card-body">
+     
+          <h5 class="card-title">{{dish.name}}</h5>
+          <div class="row">
+            {% if dish.was_published_recently %}
+            <div class="col-xs-4 pl-3 text-center"><img src="{% static 'recipes/img/new.png' %}" height="30" alt="kosher Free">
+              <p><small class="text-success">New</small></p></div>
+            {% endif %}
+                   {% for dishimage in dish.dishimages.all %}
+        
+        {% if forloop.first %}
+
+        <div class="col-xs-4 pl-3 text-center" {% comment %} style="width: 100%; height: 200px; background-image: url({{dishimage.image.url}}); background-size: cover; background-repeat: no-repeat; background-position: 50% 50%; position:relative"{% endcomment %} alt="Card image cap">
+        <a href="{% url 'dish' category.slug dish.slug 1 %}" class="btn btn-light btn-sm p-1 d-flex justify-content-center flex-column" ><i class="material-icons mx-auto mr-2" style="position: relative;right:3px;">photo_library</i>Images</a>
+        </div>
+
+        {% endif %}
+        {% empty %}
+          
+        {% endfor %}
+
+           </div>
+          <a href="{% url 'add_to_cart' dish.slug %}" class="btn btn-primary mb-2 centerButton">Add to Order<i class="material-icons">add_shopping_cart</i></a>
+          <a href="{% url 'dish' category.slug dish.slug 0 %}" class="btn btn-outline-secondary centerButton">View Product<i class="material-icons">visibility</i></a>
+
+        </div>
+      </div>
+</div>
+
+
+
+
+{% endfor %}
+</div>
+</div>
+</div>
+  
+{% endblock content %}
+{% block scripts %}
+{{block.super}}
+<script src="{% static 'recipes/js/hovercard.js' %}"></script>
+
+<script>
+  $(function(){
+    $('#mainContainer').removeClass('container')
+
+ 
+
+
+  window.onload = function() {
+
+
+    {% for dish in category.dishes.all %}
+
+    {% if dish.stl %}
+
+
+var timesLoaded{{dish.pk}} = 0 
+
+var timer{{dish.pk}} = setInterval( function() {   
+
+//console.log(document.querySelectorAll('model-viewer')[0].shadowRoot)
+
+timesLoaded{{dish.pk}}+=1
+console.log(timesLoaded{{dish.pk}})
+console.log('Checking if model loaded yet')
+
+if(mediaviewerShadow{{dish.pk}}.children[1].children[2].children[0].children[0].children[1].classList.contains('hide') && timesLoaded{{dish.pk}} > 1 ){
+  $('#toggleFullscreen{{dish.pk}}').removeClass('d-none')
+  console.log('Interval Cleared and model loaded!')
+clearInterval(timer{{dish.pk}})
+$('#toggleFullscreen{{dish.pk}}').addClass('onLoadFullscreenButton')
+}
+
+
+  
+},500);
+
+
+
+
+  var mediaviewerShadow{{dish.pk}} = document.querySelector('#toggle-poster{{dish.pk}}').shadowRoot
+
+  var mediaviewer{{dish.pk}} = document.querySelector('#toggle-poster{{dish.pk}}')
+
+
+
+
+
+
+
+    $('#toggleFullscreen{{dish.pk}}').click(function(){
+      if($(this).parent().hasClass('fullScreen-off')){
+        $(this).parent().toggleClass('fullScreen-on')
+        $(this).parent().toggleClass('fullScreen-off')
+        $(this).toggleClass('regularFullscreenButton')
+        $(this).removeClass('onLoadFullscreenButton')
+
+
+
+      }
+      else{
+        $(this).parent().toggleClass('fullScreen-on')
+        $(this).parent().toggleClass('fullScreen-off')
+        $(this).toggleClass('regularFullscreenButton')
+        $(this).removeClass('onLoadFullscreenButton')
+
+
+      }
+      console.log($(this).children(":first"))
+      console.log($(this).children(":first").parent().parent().hasClass('fullscreen'))
+      if ($(this).parent().hasClass('fullScreen-on')){
+          console.log('Fullscreen mode is on')
+          $(this).children(":first").html('fullscreen_exit')
+          
+          $(this).toggleClass('regularFullscreenButton')
+          $(this).toggleClass('scaledFullscreenButton')
+          $(this).removeClass('onLoadFullscreenButton')
+
+          $(this).css('right','30px')
+          $(this).css('bottom','30px')
+
+
+
+        }
+        else{
+          console.log('Fullscreen mode is off')
+          $(this).children(":first").html('fullscreen')
+        $(this).toggleClass('regularFullscreenButton')
+          $(this).toggleClass('scaledFullscreenButton')
+          
+          $(this).css('right','5px')
+          $(this).css('bottom','5px')
+        }
+      
+    })
+
+{% endif %}    
+    {% endfor %}
+    };
+
+  })
+</script>
+
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.js"></script>
+{% endblock scripts %}
+
+{% block dishscripts %}
+{% endblock  %}

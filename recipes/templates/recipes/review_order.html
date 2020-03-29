@@ -1,0 +1,126 @@
+{% extends 'recipes/base.html' %}
+{% block title %}Review Order{% endblock title %}
+
+{% block content %}
+<div style="margin-top: 60px;">
+    <div class="progress">
+      <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width:60%"></div>
+    </div>
+  </div>
+  <h3 class="mt-2">Review Order & Pay</h3>
+  <div class="table-responsive">
+    <table  class="table table-hover m-right-panel m-page scene_element scene_element--fadeinright" style="margin-top:35px">
+      
+      <thead>
+        <tr>
+          <th class="text-center">Dish</th>
+          <th class="text-center">Quantity</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+    
+      <tbody>
+    {% for cart_item in order.orderitems.all %}
+        <tr>
+          <td class="text-center">{{cart_item.item.name}}</td>
+          {% if forloop.first %}
+          <td class="text-center d-flex justify-content-center border-top-0">
+            {{cart_item.quantity}}
+          </td>
+          {% else %}
+          <td class="text-center d-flex justify-content-center">
+            {{cart_item.quantity}}
+          </td>
+          {% endif %}
+          
+          <td>${{cart_item.get_line_total}}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    
+      <tfoot>
+        <tr>
+          <th scope="row"></th>
+          <td class="text-center"><h5>Total Quantity</h5></td>
+          <td>{{order.get_total_quantity}}</td>
+        </tr>
+        <tr>
+          <th scope="row"></th>
+          <td class="text-center"><h5>Total Price</h5></td>
+          <td>${{order.get_total}}</td>
+        </tr>
+      </tfoot>
+      
+    </table>
+    </div>
+
+  <table  class="table table-hover m-right-panel m-page scene_element scene_element--fadeinright mt-1">
+    
+    <thead>
+      {% if order.orderinfo.same_as_billing %}
+      <tr>
+        <th class="text-center border-0">Shipping Address and Billing Address</th>
+      </tr>
+      {% else %}
+      <tr>
+        <th class="text-center border-0">Shipping Address</th>
+        <th class="text-center border-0">Billing Address</th>
+      </tr>
+      {% endif %}
+    </thead>
+  
+    <tbody>
+      <tr>
+        {% if order.orderinfo.same_as_billing %}
+        <td class="text-center">{{order_info.address}}</td>
+        {% else %}
+        <td class="text-center">{{order_info.address}}</td>
+        <td class="text-center">{{order.billingaddress.address}}</td>
+        {% endif %}
+      </tr>
+    </tbody>
+    
+  </table>
+
+<form method="POST" action="{% url 'review_order' order.pk %}">
+    {% csrf_token %}
+
+<div class="float-right centerButton mt-2 mb-2" >
+  <a href="{% url 'add_billing_info' order.pk %}" type="button" class="btn btn-secondary mr-2 centerButton" ><i class="material-icons">arrow_back</i>Edit Billing Address</a>
+  <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+  data-key="{{ key }}"
+  data-description="Complete your order"
+  data-amount="{{total}}"
+  data-locale="auto"
+  data-email="{{order.orderinfo.email}}"
+  >
+  
+</script></div>
+</form>
+  <style>
+    .progress-bar {
+        -webkit-transition: width 2.5s ease;
+        transition: width 2.5s ease;
+    }
+    </style>
+    
+  {% endblock content %}
+  
+  {% block footer %}
+  {% endblock %}
+  
+  {% block scripts %}
+  {{block.super}}
+  <script>
+
+$( document ).ready(function() {
+
+
+  
+  $(".progress-bar").css('width', '80%');
+})
+  </script>
+  {% endblock %}
+
+  {% block dishscripts %}
+{% endblock  %}

@@ -1,0 +1,9 @@
+{
+    // "python.pipenvPath": "/home/gabriel/.local/share/virtualenvs/OptOMystik-R_-XooJ0/bin/activate",
+    "python.venvPath": "/home/gabriel/.local/share/virtualenvs/optomystikv2-q-h7mik9",
+    "python.pythonPath": "/home/gabriel/.local/share/virtualenvs/optomystikv2-q-h7mik9/bin/python",
+    "python.linting.pylintArgs": [
+        "--load-plugins=pylint_django",
+        "--errors-only"
+   ],
+}

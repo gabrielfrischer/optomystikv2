@@ -1,0 +1,88 @@
+{% extends 'recipes/base.html' %}
+{% load humanize %}
+
+{% block title %}My Orders{% endblock title %}
+{% block content %}
+<div class="accordion" id="accordionExample" style='margin-top:125px'>
+    {% if orders.count > 0 %}
+    {% for order in orders reversed %}
+        {% if forloop.counter == 1 %}
+    <div class="card">
+      <div class="card-header" id="heading{{order.pk}}">
+        <h2 class="mb-0">
+          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse{{order.pk}}" aria-expanded="true" aria-controls="collapse{{order.pk}}">
+            {{forloop.counter|ordinal}} Order
+          </button>
+        </h2>
+      </div>
+  
+      <div id="collapse{{order.pk}}" class="collapse show" aria-labelledby="heading{{order.pk}}" data-parent="#accordionExample">
+        <div class="card-body">
+            <p><small class='text-muted'>Order Confirmation Number:</small> #{{order.id}}</p>
+            <p><small class='text-muted'>Order Submission Time:</small> {{order.updated}}</p>
+            <p><small class='text-muted'>Order Items:</small></p>
+            {% for items in order.orderitems.all %}
+            <p>&#8226; {{items}}</p>
+            {% endfor %}
+            <a class="btn btn-primary" href="{% url 'contactafterorder' order.id %}"><small>Send or Delete Messages for this Order</small></a>
+
+        </div>
+      </div>
+    </div>
+        {% else %}
+    <div class="card">
+      <div class="card-header" id="heading{{order.pk}}">
+        <h2 class="mb-0">
+          <button id="collapse{{order.pk}}-{{order.pk}}" class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapse{{order.pk}}" aria-expanded="false" aria-controls="collapse{{order.pk}}">
+            {{forloop.counter|ordinal}} Order
+          </button>
+        </h2>
+      </div>
+      <div id="collapse{{order.pk}}" class="collapse" aria-labelledby="heading{{order.pk}}" data-parent="#accordionExample">
+        <div class="card-body">
+            <p><small class='text-muted'>Order Confirmation Number:</small> #{{order.id}}</p>
+            <p><small class='text-muted'>Order Submission Time:</small> {{order.updated}}</p>
+            <p><small class='text-muted'>Order Items:</small></p>
+            {% for items in order.orderitems.all %}
+            <p>&#8226; {{items}}</p>
+            {% endfor %}
+            <p><small class='text-muted'>Location:</small> {{order.orderinfo.address}}</p>
+            <p><small class='text-muted'>Total Price:</small> ${{order.get_total}}</p>
+            <a class="btn btn-primary" href="{% url 'contactafterorder' order.id %}"><small>Send or Delete Messages for this Order</small></a>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% else %}
+    <h2>You have not placed any orders yet.</h2>
+    {% endif %}
+        
+  
+  </div>
+{% endblock content %}
+{% block footer %}
+{% endblock footer%}
+{% block scripts %}
+{{block.super}}
+<script>
+
+
+$(function() {
+var hash = window.location.hash
+console.log(hash)
+var hashNumber = hash.substring(1)
+console.log(hashNumber)
+var element = "#collapse"+hashNumber+"-"+hashNumber
+console.log(element)
+$(element).click()
+
+});
+
+
+
+</script>
+{% endblock scripts %}
+
+{% block dishscripts %}
+{% endblock  %}

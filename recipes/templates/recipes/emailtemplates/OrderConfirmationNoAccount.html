@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+
+   <h2 style="color:black">Thank you for placing an order with us!</h2>
+   <h4 style="color:black">Order Summary:</h4>
+   <p style="color:black; font-weight:normal">You ordered a total of {{order.get_total_quantity}} item{{order.get_total_quantity|pluralize:"s"}}.</p>
+   <ul>
+    {% for item in order.orderitems.all %}
+    <li>{{item}}</li>
+    {% endfor %}      
+   </ul> 
+ 
+   <h4 style="color:black">Your order will be shipped to:</h4>
+   <p style="color:black; font-weight:normal">{{order.orderinfo.address}}</p>
+    <h4 style="color:black">Contact info to reach you:</h4>
+    <p style="color:black; font-weight:normal">If we have an issue, we'll try to reach you at the number you provided to us, <a href="tel:{{order.orderinfo.phone_number_to_contact}}">{{order.orderinfo.phone_number_to_contact}}</a>.</p>
+    <p style="color:black; font-weight:normal">If we can't reach you at that number, we'll email you at {{order.orderinfo.email}}</p>
+    <h4 style="color:black">Total Price:</h4>
+    <p style="color:black; font-weight:normal">The total cost for your order is <u>${{order.get_total}}</u></p>
+    <h4 style="color:black">Order Identification:</h4>
+    <p style="color:black; font-weight:normal">Your unique session code is: {{session_id}}</p>
+    <p style="color:black; font-weight:normal">Your unique order number is: #{{order.pk}}</p>
+    <br>
+    <p style="color:black; font-weight:normal">Thank you!</p>
+    <p style="color:black; font-weight:normal">Sincerely,</p>
+    <p style="color:black; font-weight:normal">OptOMystik Team</p>
+
+</body>
+</html>

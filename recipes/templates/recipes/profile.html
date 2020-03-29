@@ -1,0 +1,121 @@
+{% extends 'recipes/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block css %}
+{{block.super}}
+<link rel="stylesheet" href="{% static 'general/css/registration.css' %}">
+
+{% endblock %}
+{% block body %}
+
+{{block.super}}
+  <div class="row h-75 d-flex justify-content-center">
+
+            <div class="row m-page scene_element scene_element--fadeinup">
+                <div class="col-sm-12 col-md-6 offset-md-3 my-auto main-section text-center">
+                    
+                    <div class="row">
+                        <div class="col-lg-12 col-sm-12 col-12 profile-header"></div>
+                        
+                    </div>
+                    <div class="row user-detail">
+                        <div class="col-lg-12 col-sm-12 col-12">
+                            {% for message in messages %}
+                            <div {% if messages %} style="margin-top:400px" class="alert alert-{{message.tags}} alert-dismissible fade show mt-2" role="alert" {% endif %}>
+                               {{message}}
+                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            {% endfor %}
+                            <img src="{{profile.profile_picture.url}}" class="rounded-circle img-thumbnail">
+                            <h5>{{profile.user.first_name}} {{profile.user.last_name}}</h5>
+                            <p><i class="fa fa-map-marker" aria-hidden="true"></i>{{profile.user.email}}</p>
+          
+                            <hr>
+                            <a href="{% url 'account_reset_password' %}" class="btn btn-success btn-sm">Change Password</a>
+                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModalCenter">
+                                Edit Profile
+                              </button>
+                            
+          
+                            <hr>
+                            <span>Thank you for being a part of OptOMystik. Your support means alot. Feel free to join our community and follow us on facebook</span>
+                        </div>
+                    </div>
+                    <div class="row user-social-detail bg-white">
+                        <div class="col-lg-12 col-sm-12 col-12">
+                            {% if verified %}
+                            <button type="button" class=" mx-auto btn btn-light centerButton mb-2" disabled>Account is Verified <i class="material-icons text-success">verified_user</i></button>
+                            {% else %}
+                            <a href="{% url 'manual_send_verification' %}" class="btn btn-light centerButton mb-2 ">Account Unverified, Send Verification Email<i class="material-icons text-danger">not_interested</i></a>
+                            {% endif %}
+                            <a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
+                            <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                </div>
+              </div>
+
+          </div>
+
+          <!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">Edit Profile</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{user_form|crispy}}
+            {{profile_form|crispy}}
+            <button type="submit" class="btn btn-info btn-sm">Update Profile</button>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% block footer %}{% endblock footer %}
+   
+
+        <style>body{
+            background: #EFF7FE;
+          padding-top: 15px;
+    }
+    .main-section{
+        background-color: #fff;
+    }
+    .profile-header{
+        background-color: #EFF7FE;
+        height:150px;
+    }
+    .user-detail{
+        margin:-50px 0px 30px 0px;
+    }
+    .user-detail img{
+        height:100px;
+        width:100px;
+    }
+    .user-detail h5{
+        margin:15px 0px 5px 0px;
+    }
+
+    </style>
+
+    <script>
+    $('#myModal').modal()
+</script>
+
+{% endblock body %}
+
+{% block dishscripts %}
+{% endblock  %}

@@ -1,0 +1,151 @@
+{% extends 'recipes/base.html' %}
+{% load static %}
+{% block title %}{{dish.name}}{% endblock title %}
+{% block css %}
+{{block.super}}
+<link rel="stylesheet" href="{% static 'recipes/css/homepage.css' %}">
+
+<link rel="stylesheet" href="{% static 'recipes/css/photoswipe.css' %}">
+<link rel="stylesheet" href="{% static 'recipes/css/default-skin/default-skin.css' %}">
+<style>
+  .pwswp{
+    z-index: 9999;
+  }
+  </style>
+
+{% endblock css %}
+
+
+{% block 3d %}
+
+{% if dish.stl %}
+
+          <model-viewer id="toggle-poster{{dish.pk}}" class="w-100 fullScreen-off"  {% for dishimage in dish.dishimages.all %}
+              {% if forloop.counter == 1 %}
+              poster = "{{dishimage.image.url}}";
+              {% endif %}
+              {% endfor %} src="{{dish.stl.url}}" alt="{{dish.name}}" auto-rotate camera-controls>
+            <button id="toggleFullscreen{{dish.pk}}" class="btn btn-small d-none bg-white border border-dark rounded centerSmallButton " style="position:absolute;bottom:5px;right:5px; width:40px"><i class="material-icons mr-2">fullscreen</i></button>
+            <div id="lazy-load-poster{{dish.pk}}" slot="poster"></div>
+            <div id="button-load{{dish.pk}}" class="text-center align-center" slot="poster">Loading 3D Model</div>
+          </model-viewer>
+
+          {% endif %}
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="mx-auto" style="margin-top: 80px;">
+  <a class="d-inline" href="{% url 'category' dish.category.slug %}"><h3 class="d-inline">{{dish.category}}</h3></a><h3 class="d-inline"> / {{dish.name}}</h3>
+  <p>{{dish.description}}</p>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6+ mx-auto"> 
+       <a href="{% url 'add_to_cart' dish.slug %}" class="btn btn-primary mb-2 centerButton w-100">Add to Order<i class="material-icons">add_shopping_cart</i></a>
+    </div>
+
+  </div>
+
+
+
+
+        <div class="my-gallery mt-1 mb-5" itemscope itemtype="http://schema.org/ImageGallery">
+          <div class="row d-flex justify-content-center">
+
+          {% for picture in dish.dishimages.all reversed %}
+          <figure itemprop="associatedMedia" class="d-inline m-1 mx-auto" itemscope itemtype="http://schema.org/ImageObject">
+              <a href="{{picture.image.url}}" itemprop="contentUrl"
+                  data-size="{{picture.image.width}}x{{picture.image.height}}">
+                  <img src="{{picture.image.url}}" height="150" class="rounded" itemprop="thumbnail" alt="Image description" />
+              </a>
+              <figcaption itemprop="caption description"></figcaption>
+          </figure>
+          {% empty %}
+          <p>No images for this product</p>
+          {% endfor %}
+
+          
+      </div>
+    </div>
+
+  
+
+      </div>
+
+
+{% endblock %}
+
+  
+    {% block footer %}
+      <!-- Root element of PhotoSwipe. Must have class pswp. -->
+    <div class="pswp" style="width:100vw" tabindex="-1" role="dialog" aria-hidden="true" id="mainPics">
+
+      <!-- Background of PhotoSwipe. 
+           It's a separate element as animating opacity is faster than rgba(). -->
+      <div class="pswp__bg"></div>
+    
+      <!-- Slides wrapper with overflow:hidden. -->
+      <div class="pswp__scroll-wrap">
+    
+          <!-- Container that holds slides. 
+              PhotoSwipe keeps only 3 of them in the DOM to save memory.
+              Don't modify these 3 pswp__item elements, data is added later on. -->
+          <div class="pswp__container">
+              <div class="pswp__item"></div>
+              <div class="pswp__item"></div>
+              <div class="pswp__item"></div>
+          </div>
+    
+          <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+          <div class="pswp__ui pswp__ui--hidden">
+    
+              <div class="pswp__top-bar">
+    
+                  <!--  Controls are self-explanatory. Order can be changed. -->
+    
+                  <div class="pswp__counter"></div>
+    
+                  <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+    
+                  <button class="pswp__button pswp__button--share" title="Share"></button>
+    
+                  <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+    
+                  <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+    
+                  <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                  <!-- element will get class pswp__preloader--active when preloader is running -->
+                  <div class="pswp__preloader">
+                      <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                          <div class="pswp__preloader__donut"></div>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+    
+              <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                  <div class="pswp__share-tooltip"></div> 
+              </div>
+    
+              <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+              </button>
+    
+              <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+              </button>
+    
+              <div class="pswp__caption">
+                  <div class="pswp__caption__center"></div>
+              </div>
+    
+          </div>
+    
+      </div>
+    
+    </div>
+
+    {% endblock %}
+
+
+

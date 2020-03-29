@@ -1,0 +1,9 @@
+{% load account %}{% user_display user as user_display %}{% load i18n %}{% autoescape off %}{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}Hello from {{ site_name }}!
+
+You're receiving this e-mail because user {{ user_display }} has chosen to verify an e-mail address for your OptOMystik account.
+
+To confirm this is correct, please activate your account with the following link: {{ activate_url }}
+{% endblocktrans %}
+{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}Thank you!
+{{ site_domain }}{% endblocktrans %}
+{% endautoescape %}

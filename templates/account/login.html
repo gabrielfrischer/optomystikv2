@@ -1,0 +1,17 @@
+{% extends 'account/base.html' %}
+{% load crispy_forms_tags %}
+<!--  -->
+{% block title %}Login{% endblock title %}
+<!--  -->
+
+
+{% block registrationtype %}Login{% endblock registrationtype %}
+{% block instruction2 %}If you don't have an account <a href="{% url 'account_signup' %}">Signup Here</a>       {% endblock instruction2 %}
+{% block form %}
+<form method="POST">
+    {% csrf_token %}
+    {{form|crispy}}
+    <button class=" btn btn-primary float-right centerButton" type="submit">Login<i class="material-icons">send</i></button>
+</form>
+<a href="{% url 'account_reset_password' %}">Forgot Password?</a>
+{% endblock form %}

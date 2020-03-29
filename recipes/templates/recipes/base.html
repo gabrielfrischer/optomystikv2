@@ -1,0 +1,550 @@
+{% load static %}
+{% load cart_total %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}{% endblock title %}</title>
+{% block css %}
+    <link rel="stylesheet" href="{% static 'recipes/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'recipes/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'general/css/base.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'recipes/img/logo.png' %}" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Alata&display=swap" rel="stylesheet"> {% endblock css %}
+</head>
+<body>
+
+
+    {% block nav %}
+    
+  
+  
+    <nav class="navbar fixed-top bg-transparent mb-5">
+  
+
+    
+      <ul class="nav d-flex justify-content-between" style="width:100%">
+        {% if request.user.is_authenticated %}
+        <li class="nav-item align-self-center">
+          <div class="btn-group dropdown mr-2">
+            <a href="{% url 'profile' %}" type="button" class="btn btn-outline-primary bg-white  roundMe">
+              {{request.user.username}}
+            </a>
+            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="sr-only">Toggle Dropright</span>
+            </button>
+            <div class="dropdown-menu">
+              <a href="{% url 'orders' %}" class="dropdown-item centerButton text-primary">Past Orders <i class="material-icons">receipt</i></a>
+              <a href="{% url 'profile' %}" class="dropdown-item centerButton text-primary" >Profile <i class="material-icons">person</i></a>
+              <div class="dropdown-divider"></div>
+              <a href="{% url 'logout' %}"><button class="dropdown-item centerButton" type="button">Logout<i class="material-icons">exit_to_app</i></button></a>
+          </div>  
+          </div>      
+        </li>
+        <li class="nav-item align-self-center">
+          <a href="{% url 'home' %}" class="btn border-white btn-sm mt-1 roundMe text-white font-weight-bold optoLogo">
+            OptOMystik
+        </a>   
+        </li>
+        <li class="nav-item align-self-center" >
+          <a href="{% url 'cart' %}"><button class="btn btn-primary roundMe" >
+            Cart<i class="material-icons md-18" style="font-size: 18px; position: relative; top:3px">shopping_cart</i>
+            <span class="badge badge-light text-primary">{{request.user| cart_total}}</span>
+          </button>    
+        </a>    
+        </li>
+        
+        
+        {% else %}
+        <li class="nav-item align-self-center" id="guest">
+          <div class="btn-group dropdown">
+            <a href="{% url 'account_login' %}" type="button" class="btn bg-white centerButton roundMe">
+             Login <i class="material-icons">how_to_reg</i>
+            </a>
+            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="sr-only">Toggle Dropright</span>
+            </button>
+            <div class="dropdown-menu">
+              <a href="{% url 'account_signup' %}" class="dropdown-item centerButton text-primary">Sign Up <i class="material-icons">person_add</i></a>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item centerButton" type="button" id="guestButton">Continue As Guest<i class="material-icons">input</i></button>
+          </div>  
+          </div>      
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'home' %}" class="btn border-white btn-sm mt-1 roundMe text-white font-weight-bold optoLogo">
+            OptOMystik
+        </a>    
+        </li>
+        <li class="nav-item align-self-center" >
+          <a href="{% url 'cart' %}"><button class="btn btn-primary roundMe" >
+            Cart<i class="material-icons md-18" style="font-size: 18px; position: relative; top:3px">shopping_cart</i>
+            <span class="badge badge-light text-primary">{{request.session.total_quantity}}</span>
+          </button>    
+        </a>    
+        </li>
+
+        
+        {% endif %}
+      </ul>
+      
+    </nav>
+  
+    {% endblock nav %}
+
+    {% block 3d %}
+    {% endblock %}
+    <div>
+      {% for message in messages %}
+      <div class="container" style="margin-top:100px">
+      <div {% if messages %} class="alert alert-{{message.tags}} alert-dismissible fade show mt-2 roundMe" role="alert" {% endif %}>
+       {{message}}
+      <button type="button" class="close mb-5" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      </div>
+    </div>
+      {% endfor %}
+      </div>
+    <main class="container" id="mainContainer">
+        {% block content %}
+
+        {% endblock content %}
+    </main>
+
+    {% block footer %}
+    <nav class="bg-light text-center" style="width:100%; background:black" >
+      <div class="my-auto p-3">
+      <small class="text-muted"><span id='year'></span> OptOMystik&trade;</small><br>
+      <small class="text-muted">All Rights Reserved.</small>
+    </div>
+        
+      </nav>
+    {% endblock footer %}
+    
+    {% block scripts %}
+
+    <script>
+
+{%  if not request.user.is_authenticated %}
+
+              var hide = function (elem) {
+  elem.style.display = 'none';
+  localStorage.setItem("guest", true);
+
+};
+
+var guestButton = document.getElementById('guestButton')
+var accountButtons = document.getElementById('guest')
+
+guestButton.addEventListener('click', function(){
+  hide(accountButtons)
+
+})
+
+
+var isGuest = localStorage.getItem('guest');
+if (isGuest){
+     console.log('Local Storage Guest set as True')
+     hide(accountButtons)
+
+   };
+
+{% endif %}
+
+
+    </script>
+        <script src="{% static 'recipes/js/jquery-3.4.1.js' %}"></script>
+
+    <script src="{% static 'recipes/js/photoswipe.min.js' %}"></script> 
+<script src="{% static 'recipes/js/photoswipe-ui-default.min.js' %}"></script> 
+    <script src="{% static 'recipes/js/popper.js' %}"></script>
+    <script src="{% static 'recipes/js/bootstrap.js' %}"></script>
+    <script>
+      $(document).ready(function() {
+
+      
+        $('.optoLogo').mouseover(function(){
+          $(this).css(  'text-decoration','underline')
+                    $(this).css(  'text-decoration','underline')
+
+        })
+        $('.optoLogo').mouseleave(function(){
+          $(this).css(  'text-decoration','underline')
+                    $(this).css(  'text-decoration','none')
+
+        })
+        
+
+        var year = new Date().getFullYear()
+        $('#year').html(year)
+      
+
+    if ($(".alert").length > 0){
+  // do something here
+  setTimeout(function(){
+        $('.alert').slideUp(400, function(){
+    console.log('Done!');
+}).fadeOut({
+    duration: 400,
+    queue: false
+}).then(
+  setTimeout(function(){
+    $('.alert').alert('close');
+  }, 450))
+  
+    },5200)
+}
+else{
+  console.log('Alert does not exist')
+}
+
+});
+    
+    </script>
+    {% endblock scripts %}
+
+  {% block dishscripts %}
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.js"></script>
+
+
+<script>
+    $(function(){
+  
+  
+
+
+  {% if dish.stl %}
+      
+var timesLoaded{{dish.pk}} = 0 
+
+var timer{{dish.pk}} = setInterval( function() {   
+
+//console.log(document.querySelectorAll('model-viewer')[0].shadowRoot)
+
+timesLoaded{{dish.pk}}+=1
+console.log(timesLoaded{{dish.pk}})
+console.log('Checking if model loaded yet')
+
+if(mediaviewerShadow{{dish.pk}}.children[1].children[2].children[0].children[0].children[1].classList.contains('hide') && timesLoaded{{dish.pk}} > 1 ){
+  $('#toggleFullscreen{{dish.pk}}').removeClass('d-none')
+  console.log('Interval Cleared and model loaded!')
+clearInterval(timer{{dish.pk}})
+$('#toggleFullscreen{{dish.pk}}').addClass('onLoadFullscreenButton')
+}
+
+
+  
+},500);
+
+
+
+
+  var mediaviewerShadow{{dish.pk}} = document.querySelector('#toggle-poster{{dish.pk}}').shadowRoot
+
+  var mediaviewer{{dish.pk}} = document.querySelector('#toggle-poster{{dish.pk}}')
+
+
+
+
+
+
+
+    $('#toggleFullscreen{{dish.pk}}').click(function(){
+      if($(this).parent().hasClass('fullScreen-off')){
+        $(this).parent().toggleClass('fullScreen-on')
+        $(this).parent().toggleClass('fullScreen-off')
+        $(this).toggleClass('regularFullscreenButton')
+        $(this).removeClass('onLoadFullscreenButton')
+
+
+
+      }
+      else{
+        $(this).parent().toggleClass('fullScreen-on')
+        $(this).parent().toggleClass('fullScreen-off')
+        $(this).toggleClass('regularFullscreenButton')
+        $(this).removeClass('onLoadFullscreenButton')
+
+
+      }
+      console.log($(this).children(":first"))
+      console.log($(this).children(":first").parent().parent().hasClass('fullscreen'))
+      if ($(this).parent().hasClass('fullScreen-on')){
+          console.log('Fullscreen mode is on')
+          $(this).children(":first").html('fullscreen_exit')
+          
+          $(this).toggleClass('regularFullscreenButton')
+          $(this).toggleClass('scaledFullscreenButton')
+          $(this).removeClass('onLoadFullscreenButton')
+
+          $(this).css('right','30px')
+          $(this).css('bottom','30px')
+
+
+
+        }
+        else{
+          console.log('Fullscreen mode is off')
+          $(this).children(":first").html('fullscreen')
+        $(this).toggleClass('regularFullscreenButton')
+          $(this).toggleClass('scaledFullscreenButton')
+          
+          $(this).css('right','5px')
+          $(this).css('bottom','5px')
+        }
+      
+    })
+
+    {% endif %}
+
+  var pswpElement = document.querySelectorAll('.pswp')[0];
+  
+  // build items array
+  var items = [
+      {% for dishimage in dish.dishimages.all %}
+      {
+          src: '{{dishimage.image.url}}',
+          w: {{dishimage.image.width}},
+          h: {{dishimage.image.height}}
+      },
+      {% endfor %}
+  ];
+  
+  // define options (if needed)
+  var options = {
+      // optionName: 'option value'
+      // for example:
+      index: 0 // start at first slide
+  };
+  
+  // Initializes and opens PhotoSwipe
+  var gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, items, options);
+  {% if trigger_pics %}
+  gallery.init();
+{% endif %}
+
+ 
+
+
+})
+
+  </script>
+<script src="{% static 'recipes/js/hovercard.js' %}"></script>
+<script>
+var initPhotoSwipeFromDOM = function (gallerySelector) {
+
+  // parse slide data (url, title, size ...) from DOM elements 
+  // (children of gallerySelector)
+  var parseThumbnailElements = function (el) {
+      var thumbElements = el.childNodes,
+          numNodes = thumbElements.length,
+          items = [],
+          figureEl,
+          linkEl,
+          size,
+          item;
+
+      for (var i = 0; i < numNodes; i++) {
+
+          figureEl = thumbElements[i]; // <figure> element
+
+          // include only element nodes 
+          if (figureEl.nodeType !== 1) {
+              continue;
+          }
+
+          linkEl = figureEl.children[0]; // <a> element
+
+          size = linkEl.getAttribute('data-size').split('x');
+
+          // create slide object
+          item = {
+              src: linkEl.getAttribute('href'),
+              w: parseInt(size[0], 10),
+              h: parseInt(size[1], 10)
+          };
+
+
+
+          if (figureEl.children.length > 1) {
+              // <figcaption> content
+              item.title = figureEl.children[1].innerHTML;
+          }
+
+          if (linkEl.children.length > 0) {
+              // <img> thumbnail element, retrieving thumbnail url
+              item.msrc = linkEl.children[0].getAttribute('src');
+          }
+
+          item.el = figureEl; // save link to element for getThumbBoundsFn
+          items.push(item);
+      }
+
+      return items;
+  };
+
+  // find nearest parent element
+  var closest = function closest(el, fn) {
+      return el && (fn(el) ? el : closest(el.parentNode, fn));
+  };
+
+  // triggers when user clicks on thumbnail
+  var onThumbnailsClick = function (e) {
+      e = e || window.event;
+      e.preventDefault ? e.preventDefault() : e.returnValue = false;
+
+      var eTarget = e.target || e.srcElement;
+
+      // find root element of slide
+      var clickedListItem = closest(eTarget, function (el) {
+          return (el.tagName && el.tagName.toUpperCase() === 'FIGURE');
+      });
+
+      if (!clickedListItem) {
+          return;
+      }
+
+      // find index of clicked item by looping through all child nodes
+      // alternatively, you may define index via data- attribute
+      var clickedGallery = clickedListItem.parentNode,
+          childNodes = clickedListItem.parentNode.childNodes,
+          numChildNodes = childNodes.length,
+          nodeIndex = 0,
+          index;
+
+      for (var i = 0; i < numChildNodes; i++) {
+          if (childNodes[i].nodeType !== 1) {
+              continue;
+          }
+
+          if (childNodes[i] === clickedListItem) {
+              index = nodeIndex;
+              break;
+          }
+          nodeIndex++;
+      }
+
+
+
+      if (index >= 0) {
+          // open PhotoSwipe if valid index found
+          openPhotoSwipe(index, clickedGallery);
+      }
+      return false;
+  };
+
+  // parse picture index and gallery index from URL (#&pid=1&gid=2)
+  var photoswipeParseHash = function () {
+      var hash = window.location.hash.substring(1),
+          params = {};
+
+      if (hash.length < 5) {
+          return params;
+      }
+
+      var vars = hash.split('&');
+      for (var i = 0; i < vars.length; i++) {
+          if (!vars[i]) {
+              continue;
+          }
+          var pair = vars[i].split('=');
+          if (pair.length < 2) {
+              continue;
+          }
+          params[pair[0]] = pair[1];
+      }
+
+      if (params.gid) {
+          params.gid = parseInt(params.gid, 10);
+      }
+
+      return params;
+  };
+
+  var openPhotoSwipe = function (index, galleryElement, disableAnimation, fromURL) {
+      var pswpElement = document.querySelectorAll('.pswp')[0],
+          gallery,
+          options,
+          items;
+
+      items = parseThumbnailElements(galleryElement);
+
+      // define options (if needed)
+      options = {
+
+          // define gallery index (for URL)
+          galleryUID: galleryElement.getAttribute('data-pswp-uid'),
+
+          getThumbBoundsFn: function (index) {
+              // See Options -> getThumbBoundsFn section of documentation for more info
+              var thumbnail = items[index].el.getElementsByTagName('img')[0], // find thumbnail
+                  pageYScroll = window.pageYOffset || document.documentElement.scrollTop,
+                  rect = thumbnail.getBoundingClientRect();
+
+              return {
+                  x: rect.left,
+                  y: rect.top + pageYScroll,
+                  w: rect.width
+              };
+          }
+
+      };
+
+      // PhotoSwipe opened from URL
+      if (fromURL) {
+          if (options.galleryPIDs) {
+              // parse real index when custom PIDs are used 
+              // http://photoswipe.com/documentation/faq.html#custom-pid-in-url
+              for (var j = 0; j < items.length; j++) {
+                  if (items[j].pid == index) {
+                      options.index = j;
+                      break;
+                  }
+              }
+          } else {
+              // in URL indexes start from 1
+              options.index = parseInt(index, 10) - 1;
+          }
+      } else {
+          options.index = parseInt(index, 10);
+      }
+
+      // exit if index not found
+      if (isNaN(options.index)) {
+          return;
+      }
+
+      if (disableAnimation) {
+          options.showAnimationDuration = 0;
+      }
+
+      // Pass data to PhotoSwipe and initialize it
+      gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
+      gallery.init();
+  };
+
+  // loop through all gallery elements and bind events
+  var galleryElements = document.querySelectorAll(gallerySelector);
+
+  for (var i = 0, l = galleryElements.length; i < l; i++) {
+      galleryElements[i].setAttribute('data-pswp-uid', i + 1);
+      galleryElements[i].onclick = onThumbnailsClick;
+  }
+
+  // Parse URL and open gallery if it contains #&pid=3&gid=1
+  var hashData = photoswipeParseHash();
+  if (hashData.pid && hashData.gid) {
+      openPhotoSwipe(hashData.pid, galleryElements[hashData.gid - 1], true, true);
+  }
+};
+
+// execute above function
+initPhotoSwipeFromDOM('.my-gallery');
+</script>
+{% endblock dishscripts %}
+</body>
+</html>

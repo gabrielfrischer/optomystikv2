@@ -1,0 +1,142 @@
+{% extends 'recipes/base.html' %}
+{% load static %}
+{% load cart_total %}
+{% block title %}Cart&#9733{% endblock title %}
+
+{% block content %}
+
+
+<div style="margin-top: 60px;">
+  <div class="progress">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+  </div>
+</div>
+<h3 class="mt-2">Edit Cart</h3>
+{% if request.user.is_authenticated %}
+<div class="table-responsive">
+<table  class="table table-hover rounded m-right-panel m-page scene_element scene_element--fadeinright" style="margin-top:35px">
+  
+  <thead>
+    <tr>
+      <th class="text-center">Item</th>
+      <th class="text-center">Quantity</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+
+  <tbody>
+{% for cart_item in order.orderitems.all %}
+    <tr>
+      <td class="text-center">{{cart_item.item.name}}</td>
+      {% if forloop.first %}
+      <td class="text-center  d-flex justify-content-center border-top-0">
+        <a class="mr-2" href="{% url 'remove_from_cart' cart_item.item.slug cart_item.pk %}"><span class="badge badge-danger" style="padding-bottom: 5.5px;">-</span></a>
+        {{cart_item.quantity}}
+        <a class="ml-2" href="{% url 'add_in_cart' cart_item.item.slug %}"><span class="badge badge-success" style="padding-bottom: 5.5px;">+</span></a>
+      </td>
+      {% else %}
+      <td class="text-center d-flex justify-content-center">
+        <a class="mr-2" href="{% url 'remove_from_cart' cart_item.item.slug cart_item.pk %}"><span class="badge badge-danger" style="padding-bottom: 5.5px;">-</span></a>
+        {{cart_item.quantity}}
+        <a class="ml-2" href="{% url 'add_in_cart' cart_item.item.slug %}"><span class="badge badge-success" style="padding-bottom: 5.5px;">+</span></a>
+      </td>
+      {% endif %}
+      <td>${{cart_item.get_line_total}}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+
+  <tfoot>
+    <tr>
+      <th scope="row"></th>
+      <td class="text-center"><h5>Total Quantity</h5></td>
+      <td>{{order.get_total_quantity}}</td>
+    </tr>
+    <tr>
+      <th scope="row"></th>
+      <td class="text-center"><h5>Total Price</h5></td>
+      <td>${{order.get_total}}</td>
+    </tr>
+  </tfoot>
+  
+</table>
+</div>
+{% else %}
+<div class="table-responsive">
+  <table  class="table table-hover rounded m-right-panel m-page scene_element scene_element--fadeinright" style="margin-top:35px">
+  
+    <thead>
+      <tr>
+        <th class="text-center">Item</th>
+        <th class="text-center">Quantity</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+  
+    <tbody>
+  {% for cart_item in order.orderitems.all %}
+      <tr>
+        <td class="text-center">{{cart_item.item.name}}</td>
+        {% if forloop.first %}
+        <td class="text-center  d-flex justify-content-center border-top-0">
+          <a class="mr-2" href="{% url 'remove_from_cart' cart_item.item.slug cart_item.pk %}"><span class="badge badge-danger" style="padding-bottom: 5.5px;">-</span></a>
+          {{cart_item.quantity}}
+          <a class="ml-2" href="{% url 'add_in_cart' cart_item.item.slug %}"><span class="badge badge-success" style="padding-bottom: 5.5px;">+</span></a>
+        </td>
+        {% else %}
+        <td class="text-center d-flex justify-content-center">
+          <a class="mr-2" href="{% url 'remove_from_cart' cart_item.item.slug cart_item.pk %}"><span class="badge badge-danger" style="padding-bottom: 5.5px;">-</span></a>
+          {{cart_item.quantity}}
+          <a class="ml-2" href="{% url 'add_in_cart' cart_item.item.slug %}"><span class="badge badge-success" style="padding-bottom: 5.5px;">+</span></a>
+        </td>
+        {% endif %}
+        <td>${{cart_item.get_line_total}}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  
+    <tfoot>
+      <tr>
+        <th scope="row"></th>
+        <td class="text-center"><h5>Total Quantity</h5></td>
+        <td>{{order.get_total_quantity}}</td>
+      </tr>
+      <tr>
+        <th scope="row"></th>
+        <td class="text-center"><h5>Total Price</h5></td>
+        <td>${{order.get_total}}</td>
+      </tr>
+    </tfoot>
+    
+  </table>
+  </div>
+{% endif %}
+<div class="float-right centerButton mt-2">
+  <a href="{% url 'home' %}" type="button" class="btn btn-secondary mr-2 centerButton" ><i class="material-icons">arrow_back</i>Shop More</a>
+  <a href="{% url 'add_order_info' order.pk %}" class="btn btn-primary centerButton float-right ">Add Shipping Info <i class="material-icons">arrow_forward</i></a>
+</div>
+<style>
+  .progress-bar {
+      -webkit-transition: width 2.5s ease;
+      transition: width 2.5s ease;
+  }
+  </style>
+  
+{% endblock content %}
+
+{% block footer %}
+{% endblock %}
+
+{% block scripts %}
+{{block.super}}
+<script>
+$( document ).ready(function() {
+$(".progress-bar").css('width', '20%');
+
+})
+
+</script>
+{% endblock %}
+
+{% block dishscripts %}
+{% endblock  %}

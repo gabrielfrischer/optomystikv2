@@ -1,0 +1,158 @@
+{% extends 'recipes/base.html' %}
+{% load static i18n %} <!-- needed after extending since we are adding css and js assets in home -->
+{% load crispy_forms_tags %}
+{% block title %}Home{% endblock title%}
+{% block css %}
+{{block.super}}
+<link rel="stylesheet" href="{% static 'recipes/css/homepage.css' %}">
+
+ {% endblock css %}
+
+{% block content %}
+
+
+<video id="bgvid" src="{% static 'recipes/img/eggs2.mp4' %}" autoplay loop playsinline muted></video>
+{% comment %}
+<div class="landingTextWrapper" >
+  <div class="landingTextBox roundMe">
+  <h1 class="landingText text-white">What came first?</h1>
+  <h1 class="landingText text-white">The chicken or the egg?</h1>
+  <br>
+  <h1 class="landingText" style="color:#ffea00">Does it matter? Who gives a fuck?!</h1>
+  <h1 class="landingText text-white">The product is here, you are real</h1>
+  <h1 class="landingText text-white">OptOMystik</h1>
+
+
+</div>
+</div>
+{% endcomment %}
+
+
+
+<div class="main w-100">
+  <div class="row">
+    <div class="col-12" >   
+      <h1 class="text-center">Build your own board</h1>
+    </div>
+  </div>
+  <div class="row pb-5 mb-5">
+  {% for category in categories %}
+    <div class="col mx-auto text-center d-flex justify-content-center mt-3" >
+    <div class="card" style="width: 18rem;">
+      <a href="{% url 'category' category.slug %}" class="card-block stretched-link text-decoration-none" >
+      {% for dish in category.dishes.all %}
+      {% if dish.dishimages.count > 0 and forloop.last %}
+      {% for dishimage in dish.dishimages.all %}
+      {% if forloop.first %}
+      <div class="card-img-top"  style="width: 100%; height: 200px; background-image: url({{dishimage.image.url}}); background-size: cover; background-repeat: no-repeat; background-position: 50% 50%; position:relative" alt="Card image cap">
+        </div>  
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% empty %}
+        <p>No categories or products made yet</p>
+      {% endfor %}
+        <div class="card-body d-flex justify-content-between">
+    <h2 class="card-title float-left mt-1 text-underline"><u>{{category.name}}</u></h2>
+  <a href="{% url 'category' category.slug %}" class="btn btn-primary circleButton float-right">
+      <i class="material-icons mr-2">arrow_forward</i>
+    </a>
+  </div>
+</a>
+</div>
+</div>
+    {% empty %}
+    <p class="text-center">No categories or products added yet</p>
+{% endfor %}
+  </div>
+
+
+
+
+
+<hr>
+<div class="row  mt-3 mb-3 pt-3 pb-3 center-text rounded" style="display: flex; align-items: center; ">
+  <div class="col-sm-12 p-2 text-center">
+    <h3>Our Reviews</h3>
+
+  </div>
+  {% for review in reviews %}
+  <div class="col-sm-12 p-2 text-center">
+  <div class="d-flex justify-content-center">
+    {% with ''|center:review.rating as range %}
+                {% for i in range %}
+                    <i class="material-icons text-warning">star</i>
+                {% endfor %}
+            {% endwith %}
+  </div>
+  <blockquote class="blockquote text-center">
+    <p class="mb-0">{{review.opinion}}</p>
+    <footer class="blockquote-footer"><cite title="Source Title">{{review.first_name}}</cite></footer>
+  </blockquote>
+  </div>
+  {% endfor %}
+  <div class="col-sm-12 p-2 text-center">
+    <button type="button center" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+      Write a Review
+    </button>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Review OptOMystik</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row" style="display: flex; align-items: center; background:rgba(255,255,255,0.8)">
+          <div class="col-sm-12">
+            <form method="POST">
+              {% csrf_token %}
+           {{form|crispy}}
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Post Review</button>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+<hr>
+<div class="row  p-2 m-5 rounded" style="display: flex; align-items: center; background:rgba(255,255,255,0.8)">
+    <div class="col">
+        <h3 class="text-center">Have a question?</h3>
+        <h5 class="text-center">We're here to answer any questions you may have.</h5>
+        <h5 class="text-center">Contact us and we'll get back to you.</h5>
+    </div>
+    
+    <div class="col d-flex justify-content-center align-middle">
+        <a href="{% url 'contact' %}"><button class="btn btn-lg btn-primary align-middle" style="height:70px;width:270px">Contact Us</button></a>
+    </div>
+</div>
+
+</div>
+{% endblock content %}
+
+
+
+{% block scripts %}
+{{block.super}}
+<script src="{% static 'recipes/js/hovercard.js' %}"></script>
+<script>
+  $(function(){
+    $('#mainContainer').removeClass('container')
+  })
+</script>
+
+{% endblock scripts %}
+
+{% block dishscripts %}
+{% endblock  %}
