@@ -29,6 +29,9 @@ STRIPE_SECRET_KEY = os.environ['STRIPE_SECRET_KEY']
 STRIPE_PUBLISHABLE_KEY = os.environ['STRIPE_PUBLISHABLE_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 
+DEBUG = False
+
+
 ALLOWED_HOSTS = ['optomystik.herokuapp.com']
 
 LOGGING = {
@@ -88,6 +91,7 @@ INSTALLED_APPS = [
 ]
 
 SITE_ID = 1
+
 
 
 MIDDLEWARE = [
