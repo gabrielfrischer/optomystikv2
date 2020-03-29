@@ -213,7 +213,7 @@ LOGIN_REDIRECT_URL = '/'
 
 
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = 'staticfiles'
 
 STATIC_URL = '/static/'
 
