@@ -519,7 +519,7 @@ def review_order(request, pk):
                 "Your OptOMystik Order", 
                 'Thank You!',
                 settings.DEFAULT_FROM_EMAIL,
-                ['gfrischer@gmail.com', request.user.email], 
+                [settings.DEFAULT_FROM_EMAIL, request.user.email], 
                 fail_silently=False,
                 html_message=html_message)
                 return redirect('order_complete', pk=pk)
@@ -565,7 +565,7 @@ def review_order(request, pk):
                 "Your OptOMystik Order", 
                 'Thank You!',
                 settings.DEFAULT_FROM_EMAIL,
-                ['gfrischer@gmail.com', order.orderinfo.email], 
+                [settings.DEFAULT_FROM_EMAIL, order.orderinfo.email], 
                 fail_silently=False,
                 html_message=html_message)
                 if request.session.session_key:
@@ -621,7 +621,7 @@ def contact_us_post_order(request, pk):
                 "Message Regarding OptOMystik Order", 
                 '',
                 settings.DEFAULT_FROM_EMAIL,
-                ['gfrischer@gmail.com', request.user.email], 
+                [settings.DEFAULT_FROM_EMAIL, request.user.email], 
                 fail_silently=False,
                 html_message=html_message)
                 message_instance[0].save()
@@ -653,7 +653,7 @@ def contact_us(request):
                 "Thank You for your message sent to the OptOMystik store", 
                 '',
                 settings.DEFAULT_FROM_EMAIL,
-                ['gfrischer@gmail.com', form.cleaned_data['email']], 
+                [settings.DEFAULT_FROM_EMAIL, form.cleaned_data['email']], 
                 fail_silently=False,
                 html_message=html_message1)
             message_instance.save()
