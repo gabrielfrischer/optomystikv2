@@ -1,0 +1,200 @@
+[
+{
+  "model": "recipes.category",
+  "pk": 3,
+  "fields": {
+    "name": "Decks",
+    "slug": "decks"
+  }
+},
+{
+  "model": "recipes.category",
+  "pk": 4,
+  "fields": {
+    "name": "Trucks",
+    "slug": "trucks"
+  }
+},
+{
+  "model": "recipes.category",
+  "pk": 5,
+  "fields": {
+    "name": "Eggs",
+    "slug": "eggs"
+  }
+},
+{
+  "model": "recipes.dish",
+  "pk": 7,
+  "fields": {
+    "category": 3,
+    "name": "Maple Wood Deck 1",
+    "slug": "maple-wood-deck-1",
+    "description": "",
+    "serves": 4,
+    "price": "33.33",
+    "weight": 16,
+    "created_at": "2020-03-09T05:19:36.350Z",
+    "stl": "stls/undefined_1.glb"
+  }
+},
+{
+  "model": "recipes.dish",
+  "pk": 8,
+  "fields": {
+    "category": 4,
+    "name": "Trucks V1",
+    "slug": "trucks-v1",
+    "description": "",
+    "serves": 4,
+    "price": "33.33",
+    "weight": 16,
+    "created_at": "2020-03-09T05:19:47.733Z",
+    "stl": ""
+  }
+},
+{
+  "model": "recipes.dish",
+  "pk": 9,
+  "fields": {
+    "category": 5,
+    "name": "Egg V1",
+    "slug": "egg-v1",
+    "description": "",
+    "serves": 4,
+    "price": "33.33",
+    "weight": 16,
+    "created_at": "2020-03-09T05:19:54.443Z",
+    "stl": ""
+  }
+},
+{
+  "model": "recipes.dish",
+  "pk": 10,
+  "fields": {
+    "category": 3,
+    "name": "Kobe Deck",
+    "slug": "kobe-deck",
+    "description": "Deck with Kobe as the Messiah",
+    "serves": 4,
+    "price": "33.33",
+    "weight": 16,
+    "created_at": "2020-03-16T02:54:20.638Z",
+    "stl": "stls/lamp_iDMlhdw.glb"
+  }
+},
+{
+  "model": "recipes.dish",
+  "pk": 11,
+  "fields": {
+    "category": 3,
+    "name": "Test",
+    "slug": "test",
+    "description": "",
+    "serves": 4,
+    "price": "0.01",
+    "weight": 16,
+    "created_at": "2020-03-25T00:54:35.310Z",
+    "stl": ""
+  }
+},
+{
+  "model": "recipes.dishimages",
+  "pk": 9,
+  "fields": {
+    "dish": 10,
+    "image": "dishimages/USB-3.1_Dual_Port_SanDisk_128GB.jpg"
+  }
+},
+{
+  "model": "recipes.dishimages",
+  "pk": 11,
+  "fields": {
+    "dish": 7,
+    "image": "dishimages/image2.jpeg"
+  }
+},
+{
+  "model": "recipes.dishimages",
+  "pk": 12,
+  "fields": {
+    "dish": 7,
+    "image": "dishimages/image1.jpeg"
+  }
+},
+{
+  "model": "recipes.dishimages",
+  "pk": 13,
+  "fields": {
+    "dish": 9,
+    "image": "dishimages/download_2.jpg"
+  }
+},
+{
+  "model": "recipes.dishimages",
+  "pk": 14,
+  "fields": {
+    "dish": 8,
+    "image": "dishimages/rs.jpg"
+  }
+},
+{
+  "model": "recipes.dishimages",
+  "pk": 15,
+  "fields": {
+    "dish": 7,
+    "image": "dishimages/final3_5FUpWNI.jpg"
+  }
+},
+{
+  "model": "recipes.dishimages",
+  "pk": 16,
+  "fields": {
+    "dish": 7,
+    "image": "dishimages/\u05d1\u05d5\u05e8\u05e7\u05e1-\u05d2\u05d1\u05d9\u05e0\u05d4_kaiNWqf.jpg"
+  }
+},
+{
+  "model": "recipes.dishimages",
+  "pk": 17,
+  "fields": {
+    "dish": 7,
+    "image": "dishimages/MoroccanChicken_gEHwtkM.jpg"
+  }
+},
+{
+  "model": "recipes.dishimages",
+  "pk": 18,
+  "fields": {
+    "dish": 7,
+    "image": "dishimages/schnitzel_HW9lKVQ.jpg"
+  }
+},
+{
+  "model": "recipes.review",
+  "pk": 1,
+  "fields": {
+    "rating": 5,
+    "opinion": "Amazing kosher food for my wedding. Eti is always there to give you good service too!",
+    "first_name": "Serena"
+  }
+},
+{
+  "model": "recipes.review",
+  "pk": 2,
+  "fields": {
+    "rating": 4,
+    "opinion": "dsfa",
+    "first_name": "df"
+  }
+},
+{
+  "model": "recipes.review",
+  "pk": 3,
+  "fields": {
+    "rating": 5,
+    "opinion": "Dope skateboard shop",
+    "first_name": "Louis"
+  }
+}
+]

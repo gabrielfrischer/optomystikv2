@@ -191,7 +191,7 @@ ACCOUNT_FORMS = {
 
 AUTH_USER_MODEL = 'users.CustomUser' 
 
-#Sendgrid-v5
+
 #EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
 SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
 EMAIL_HOST = 'smtp.sendgrid.net'
@@ -199,10 +199,7 @@ EMAIL_HOST_USER = 'apikey'
 EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-#turn off on production
-#SENDGRID_SANDBOX_MODE_IN_DEBUG=False
-# SENDGRID_ECHO_TO_STDOUT = True
-#SENDGRID_ECHO_TO_STDOUT = True
+
 DEFAULT_FROM_EMAIL = "OptOMystik Team <OptOMystik1@gmail.com>"
 
 ACCOUNT_EMAIL_CONFIRMATION_COOLDOWN = 10

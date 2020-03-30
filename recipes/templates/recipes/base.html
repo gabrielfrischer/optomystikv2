@@ -16,7 +16,7 @@
     <link href="https://fonts.googleapis.com/css?family=Alata&display=swap" rel="stylesheet"> {% endblock css %}
 </head>
 <body>
-
+{% block body %}
 
     {% block nav %}
     
@@ -29,11 +29,15 @@
       <ul class="nav d-flex justify-content-between" style="width:100%">
         {% if request.user.is_authenticated %}
         <li class="nav-item align-self-center">
-          <div class="btn-group dropdown mr-2">
-            <a href="{% url 'profile' %}" type="button" class="btn btn-outline-primary bg-white  roundMe">
-              {{request.user.username}}
+          <div class="btn-group dropdown">
+            <a href="{% url 'profile' %}" type="button" class="btn btn-outline-primary bg-white text-primary roundMe mb-1">
+              {% if request.user.alternative_identity %}
+              <small>{{request.user.alternative_identity}}</small>
+              {% else %}
+              <small>{{request.user.first_name}}</small>
+              {% endif %}
             </a>
-            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split mb-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="sr-only">Toggle Dropright</span>
             </button>
             <div class="dropdown-menu">
@@ -45,12 +49,12 @@
           </div>      
         </li>
         <li class="nav-item align-self-center">
-          <a href="{% url 'home' %}" class="btn border-white btn-sm mt-1 roundMe text-white font-weight-bold optoLogo">
+          <a href="{% url 'home' %}" class="btn border-white btn-sm mt-1 roundMe text-white font-weight-bold optoLogo mb-1">
             OptOMystik
         </a>   
         </li>
         <li class="nav-item align-self-center" >
-          <a href="{% url 'cart' %}"><button class="btn btn-primary roundMe" >
+          <a href="{% url 'cart' %}"><button class="btn btn-primary roundMe mb-1" >
             Cart<i class="material-icons md-18" style="font-size: 18px; position: relative; top:3px">shopping_cart</i>
             <span class="badge badge-light text-primary">{{request.user| cart_total}}</span>
           </button>    
@@ -61,26 +65,26 @@
         {% else %}
         <li class="nav-item align-self-center" id="guest">
           <div class="btn-group dropdown">
-            <a href="{% url 'account_login' %}" type="button" class="btn bg-white text-primary centerButton roundMe">
-             Login <i class="material-icons">how_to_reg</i>
+            <a href="{% url 'account_login' %}" type="button" class="btn bg-white text-primary centerButton roundMe mb-1">
+             <small>Become Character</small><i class="material-icons">how_to_reg</i>
             </a>
-            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split mb-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span class="sr-only">Toggle Dropright</span>
             </button>
             <div class="dropdown-menu">
-              <a href="{% url 'account_signup' %}" class="dropdown-item centerButton text-primary">Sign Up <i class="material-icons">person_add</i></a>
+              <a href="{% url 'account_signup' %}" class="dropdown-item centerButton text-primary"><small>Create Character</small> <i class="material-icons">person_add</i></a>
               <div class="dropdown-divider"></div>
               <button class="dropdown-item centerButton" type="button" id="guestButton">Continue As Guest<i class="material-icons">input</i></button>
           </div>  
           </div>      
         </li>
         <li class="nav-item">
-          <a href="{% url 'home' %}" class="btn border-white btn-sm mt-1 roundMe text-white font-weight-bold optoLogo">
+          <a href="{% url 'home' %}" class="btn border-white btn-sm mt-1 roundMe text-white font-weight-bold optoLogo mb-1">
             OptOMystik
         </a>    
         </li>
         <li class="nav-item align-self-center" >
-          <a href="{% url 'cart' %}"><button class="btn btn-primary roundMe" >
+          <a href="{% url 'cart' %}"><button class="btn btn-primary roundMe mb-1" >
             Cart<i class="material-icons md-18" style="font-size: 18px; position: relative; top:3px">shopping_cart</i>
             <span class="badge badge-light text-primary">{{request.session.total_quantity}}</span>
           </button>    
@@ -99,10 +103,10 @@
     {% endblock %}
     <div>
       {% for message in messages %}
-      <div class="container" style="margin-top:100px">
+      <div class="container pr-1 pl-1" style="margin-top:100px">
       <div {% if messages %} class="alert alert-{{message.tags}} alert-dismissible fade show mt-2 roundMe" role="alert" {% endif %}>
        {{message}}
-      <button type="button" class="close mb-5" data-dismiss="alert" aria-label="Close">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
       </div>
@@ -124,6 +128,8 @@
         
       </nav>
     {% endblock footer %}
+
+    {% endblock body %}
     
     {% block scripts %}
 

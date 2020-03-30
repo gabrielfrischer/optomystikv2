@@ -1,0 +1,46 @@
+[
+{
+  "model": "users.customuser",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$180000$1b0HxIzxTknY$cB57qBwOb7diZEdVrJUfwBkXzoU8aEARGMUi+XrHrys=",
+    "last_login": "2020-03-29T06:05:04.135Z",
+    "is_superuser": true,
+    "username": "gabriel",
+    "email": "gfrischer@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2020-01-31T02:36:33.976Z",
+    "first_name": "",
+    "last_name": "",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.customuser",
+  "pk": 8,
+  "fields": {
+    "password": "pbkdf2_sha256$180000$C0h9j8RWLDHg$EdxFZG5q0QhB456aMmfJHQLs9AEm2LEcjVimcgKYLSI=",
+    "last_login": "2020-03-25T01:29:08.916Z",
+    "is_superuser": false,
+    "username": "test1f",
+    "email": "test1@test.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2020-03-25T01:29:08.544Z",
+    "first_name": "Test1f",
+    "last_name": "Test1l",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.profile",
+  "pk": 7,
+  "fields": {
+    "user": 8,
+    "profile_picture": "defaultprofileimage.png"
+  }
+}
+]

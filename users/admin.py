@@ -23,7 +23,7 @@ class CustomUserAdmin(AuthUserAdmin):
     form = CustomUserChangeForm
     model = CustomUser
     inlines=[UserProfileInline]
-    list_display = ['email','first_name', 'last_name',]
+    list_display = ['email','first_name', 'last_name', 'alternative_identity']
 
 
 admin.site.register(CustomUser, CustomUserAdmin)

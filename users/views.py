@@ -13,7 +13,7 @@ from django.contrib import messages
 @login_required
 def profile(request):
     if request.method == "POST":
-        user_form = CustomUserChangeForm(request.POST, instance=request.user, initial=model_to_dict(CustomUser))
+        user_form = CustomUserChangeForm(request.POST, instance=request.user)
         profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
         if user_form.is_valid() and profile_form.is_valid():
             profile_instance = profile_form.save(commit=False)

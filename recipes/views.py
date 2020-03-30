@@ -625,7 +625,7 @@ def contact_us_post_order(request, pk):
                 fail_silently=False,
                 html_message=html_message)
                 message_instance[0].save()
-                messages.success(request, 'Your message was successfully sent. We will get back to you promptly.')
+                messages.success(request, 'Universe has received signal. We will get back to you promptly.')
                 return redirect('message_sent')
             else:
                 print(formset)
@@ -657,7 +657,7 @@ def contact_us(request):
                 fail_silently=False,
                 html_message=html_message1)
             message_instance.save()
-            messages.success(request, 'Your message was successfully sent. We will get back to you promptly.')
+            messages.success(request, 'Universe has received signal. We will get back to you promptly.')
             return redirect('message_sent')
         else:
             messages.info(request, 'Your message is invalid, please fill out all the fields in the proper format.')

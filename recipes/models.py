@@ -38,7 +38,8 @@ class Dish(models.Model):
     weight = models.IntegerField("Weight in Ounces", help_text="Weight in Ounces", default=16 )
     created_at = models.DateTimeField(auto_now_add=True)
     stl = models.FileField(upload_to='stls', max_length=100, null=True, blank=True)
-    
+    video = models.FileField(upload_to='creationvideo', max_length=100, null=True, blank=True)
+
     def __str__(self):
         return self.name
 
@@ -50,8 +51,8 @@ class Dish(models.Model):
         super(Dish, self).save(*args, **kwargs)
 
     class Meta:
-        verbose_name = 'Product'
-        verbose_name_plural = 'Products'
+        verbose_name = 'Creation'
+        verbose_name_plural = 'Creations'
 
 class DishImages(models.Model):
     dish = models.ForeignKey(Dish, on_delete=models.CASCADE, related_name="dishimages")
